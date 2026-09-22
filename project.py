@@ -25,7 +25,8 @@ profession = st.sidebar.selectbox(
 )
 
 # 4. Фильтрация данных по выбору пользователя
-filtered_df = df[df["Name"].str.contains(profession, case=False, na=False)].copy()
+search_term = 'QA|Тестировщик' if profession == 'QA / Тестировщик' else profession
+filtered_df = df[df['Name'].str.contains(search_term, case=False, na=False, regex=True)].copy()
 
 st.subheader(f"🔍 Результаты анализа для направления: {profession}")
 
