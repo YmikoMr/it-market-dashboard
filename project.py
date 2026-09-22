@@ -23,10 +23,22 @@ profession = st.sidebar.selectbox(
     "Выберите ИТ-направление:",
     ["Python", "Golang", "Data", "QA / Тестировщик", "Frontend", "C++"]
 )
+# 1. Настраиваем ключевые слова для поиска
+if profession == "QA / Тестировщик":
+    # Для тестировщика ищем совпадение по любому из этих слов
+    search_keywords = ["qa", "тестировщик"]
+else:
+    # Для остальных профессий приводим название к нижнему регистру для точного поиска
+    search_keywords = [profession.lower()]
 
-# 4. Фильтрация данных по выбору пользователя
-search_term = 'QA|Тестировщик' if profession == 'QA / Тестировщик' else profession
-filtered_df = df[df['Name'].str.contains(search_term, case=False, na=False, regex=True)].copy()
+# 2. Фильтруем датафрейм стандартным поиском Python (без использования капризного pyarrow)
+# Мы проверяем каждую строку: если хотя бы одно ключевое слово есть в названии вакансии, строка нам подходит
+mask = [
+    any(keyword in str(name).lower() for keyword in search_keywords)
+    for name in df["Name"]
+]
+
+filtered_df = df[mask].copy()
 
 st.subheader(f"🔍 Результаты анализа для направления: {profession}")
 
