@@ -91,4 +91,4 @@ else:
 
     # 8. Показываем примеры реальных вакансий в таблице
     st.write("### 📋 Примеры вакансий из датасета:")
-    st.dataframe(filtered_df[["Name", "Employer", "From", "Experience", "Schedule"]].head(10), use_container_width=True)
+    st.dataframe(filtered_df[["Name", "Employer", "From", "Experience"]].head(10), use_container_width=True)
